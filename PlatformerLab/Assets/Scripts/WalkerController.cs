@@ -16,6 +16,16 @@ public class WalkerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 6f;
 
+    [Header("Jump")]
+    [SerializeField] private float jumpVelocity = 15f;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.15f;
+    [SerializeField] private LayerMask groundLayer;
+
+    private InputAction jumpAction;
+    private bool jumpRequested;
+    private bool isGrounded;
+
     //called once, before the game stars
     void Awake()
     {
@@ -28,6 +38,7 @@ public class WalkerController : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
         //output the fact we have access to the componenets
         //Debug.Log($"Awake: rb = {rb != null}, spriteRenderer = {spriteRenderer != null}, moveAction = { moveAction != null}");
+        jumpAction = InputSystem.actions.FindAction("Jump");
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -59,5 +70,20 @@ public class WalkerController : MonoBehaviour
         //same for moveInput = 1, and moveInput = 0
         //if moveInput = 0 => x = 0 => move with 0 speed => don't move
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocityY);
+
+        //preserve state
+        bool wasGrounded = isGrounded;
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) != null; //check if the 2 layers overlap
+        if (isGrounded != wasGrounded) //if state changed
+            Debug.Log($"isGrounded -> {isGrounded}"); //the log runs only when the state changes
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null)
+            return;
+        Gizmos.color = Color.yellow;
+        //Draw a circle at the position of the ground check
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }

@@ -24,6 +24,7 @@ public class WalkerController : MonoBehaviour
 
     private InputAction jumpAction;
     private bool jumpRequested;
+    private bool jumpCutRequested;
     private bool isGrounded;
 
     //called once, before the game stars
@@ -62,9 +63,16 @@ public class WalkerController : MonoBehaviour
             spriteRenderer.flipX = moveInput > 0f;
         }
 
+        //if space was pressed in this frame, save it
         if (jumpAction.WasPerformedThisFrame())
         {
             jumpRequested = true;
+        }
+           
+        //also save if in the same frame, the space bar was released
+        if (jumpAction.WasReleasedThisFrame())
+        {
+            jumpCutRequested = true;
         }
     }
 
@@ -82,12 +90,21 @@ public class WalkerController : MonoBehaviour
         if (isGrounded != wasGrounded) //if state changed
             Debug.Log($"isGrounded -> {isGrounded}"); //the log runs only when the state changes
 
+        //if we are on the ground and a jump was requested, move y up
         if(jumpRequested && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpVelocity);
         }
 
+        //if in the same frame, the space bar was also released, cut the jump by half
+        if(jumpCutRequested && rb.linearVelocity.y > 0f)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
+        }
+
+        //clear the flags
         jumpRequested = false;
+        jumpCutRequested = false;
     }
 
     private void OnDrawGizmosSelected()

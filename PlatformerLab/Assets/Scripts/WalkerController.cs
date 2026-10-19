@@ -17,7 +17,7 @@ public class WalkerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 6f;
 
     [Header("Jump")]
-    [SerializeField] private float jumpVelocity = 15f;
+    [SerializeField] private float jumpVelocity = 16.6f;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
@@ -61,6 +61,11 @@ public class WalkerController : MonoBehaviour
             //if we move to the left, we change the side the walker is "looking at", by flipping its x-coordinate
             spriteRenderer.flipX = moveInput > 0f;
         }
+
+        if (jumpAction.WasPerformedThisFrame())
+        {
+            jumpRequested = true;
+        }
     }
 
     //to compensate for different monitors and different speeds
@@ -76,6 +81,13 @@ public class WalkerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) != null; //check if the 2 layers overlap
         if (isGrounded != wasGrounded) //if state changed
             Debug.Log($"isGrounded -> {isGrounded}"); //the log runs only when the state changes
+
+        if(jumpRequested && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpVelocity);
+        }
+
+        jumpRequested = false;
     }
 
     private void OnDrawGizmosSelected()

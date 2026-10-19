@@ -21,11 +21,15 @@ public class WalkerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float coyoteTime = 0.1f;
+    
 
     private InputAction jumpAction;
     private bool jumpRequested;
     private bool jumpCutRequested;
     private bool isGrounded;
+
+    private float coyoteTimer;
 
     //called once, before the game stars
     void Awake()
@@ -87,13 +91,23 @@ public class WalkerController : MonoBehaviour
         //preserve state
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) != null; //check if the 2 layers overlap
+
+        //if the walker is grounded, reset the coyoteTimer
+        if (isGrounded)
+            coyoteTimer = coyoteTime;
+        //if the walker is in air, start reducing the coyoteTimer
+        else
+            coyoteTimer -= Time.fixedDeltaTime;
         if (isGrounded != wasGrounded) //if state changed
             Debug.Log($"isGrounded -> {isGrounded}"); //the log runs only when the state changes
 
         //if we are on the ground and a jump was requested, move y up
-        if(jumpRequested && isGrounded)
+        //if(jumpRequested && isGrounded)
+        //now, instead of using isGrounded for the jump, we use coyoteTimer > 0f - if we check isGrounded, we can only jump while being on the ground; now, we have the coyoteTimer (0.1s) of leeway of jumping "in the air"
+        if(jumpRequested && coyoteTimer > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpVelocity);
+            coyoteTimer = 0f; //consume the coyote timer so we cannot jump twice
         }
 
         //if in the same frame, the space bar was also released, cut the jump by half

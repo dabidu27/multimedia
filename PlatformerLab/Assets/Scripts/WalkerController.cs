@@ -31,6 +31,11 @@ public class WalkerController : MonoBehaviour
 
     private float coyoteTimer;
 
+    private static readonly int SpeedHash = Animator.StringToHash("Speed");
+    private static readonly int GroundedHash = Animator.StringToHash("IsGrounded");
+
+    private Animator animator;
+
     //called once, before the game stars
     void Awake()
     {
@@ -44,6 +49,8 @@ public class WalkerController : MonoBehaviour
         //output the fact we have access to the componenets
         //Debug.Log($"Awake: rb = {rb != null}, spriteRenderer = {spriteRenderer != null}, moveAction = { moveAction != null}");
         jumpAction = InputSystem.actions.FindAction("Jump");
+
+        animator = GetComponent<Animator>();
 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -78,6 +85,9 @@ public class WalkerController : MonoBehaviour
         {
             jumpCutRequested = true;
         }
+
+        animator.SetFloat(SpeedHash, Mathf.Abs(rb.linearVelocityX));
+        animator.SetBool(GroundedHash, isGrounded);
     }
 
     //to compensate for different monitors and different speeds

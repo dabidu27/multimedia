@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Walker_Jump
-  serializedVersion: 8
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -5481721873124560896, guid: f414b32c35a6dff4db0f6b9d7134d86d, type: 3}
+      value: {fileID: 1614739782702853134, guid: ada7acedfb85f6f4a90720d64d27fc6f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -43,9 +43,8 @@ AnimationClip:
       isPPtrCurve: 1
       isIntCurve: 0
       isSerializeReferenceCurve: 0
-      metaData: 0
     pptrCurveMapping:
-    - {fileID: -5481721873124560896, guid: f414b32c35a6dff4db0f6b9d7134d86d, type: 3}
+    - {fileID: 1614739782702853134, guid: ada7acedfb85f6f4a90720d64d27fc6f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

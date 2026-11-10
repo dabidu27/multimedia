@@ -14,6 +14,12 @@ public class WalkerController : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.1f;
     private float coyoteTimer;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip landClip;
+    private bool wasGrounded = true;
+
+
     private InputAction jumpAction;
     private bool jumpRequested;
     private bool jumpCutRequested;
@@ -70,6 +76,11 @@ public class WalkerController : MonoBehaviour
         if (isGrounded) coyoteTimer = coyoteTime;
         else            coyoteTimer -= Time.fixedDeltaTime;
 
+        if (isGrounded && !wasGrounded)
+            PlaySound(landClip);
+        wasGrounded = isGrounded;
+           
+
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
 
         if (jumpRequested && coyoteTimer > 0f)
@@ -93,5 +104,11 @@ public class WalkerController : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if(AudioManager.Instance != null)
+            AudioManager.Instance.PlaySfx(clip);
     }
 }

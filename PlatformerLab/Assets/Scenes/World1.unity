@@ -8351,6 +8351,8 @@ MonoBehaviour:
   scoreText: {fileID: 1286251169}
   endPanel: {fileID: 296907121}
   endTitle: {fileID: 573982515}
+  loseClip: {fileID: 8300000, guid: 13b74a2550532dc4cae9702905920269, type: 3}
+  winClip: {fileID: 8300000, guid: f26c47eb4f9401146a4c55a138c75316, type: 3}
 --- !u!4 &1369490241
 Transform:
   m_ObjectHideFlags: 0

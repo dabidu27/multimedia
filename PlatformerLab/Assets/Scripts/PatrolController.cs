@@ -25,6 +25,9 @@ public class PatrolController : MonoBehaviour
     private Vector2 WallOrigin => (Vector2)transform.position
         + new Vector2(wallCheckOffset.x * direction, wallCheckOffset.y);
 
+    [SerializeField] private AudioClip stompClip;
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -63,6 +66,7 @@ public class PatrolController : MonoBehaviour
             Rigidbody2D playerBody = collision.rigidbody;
             playerBody.linearVelocity = new Vector2(playerBody.linearVelocity.x, stompBounce);
             GameManager.Instance.AddScore(100);
+            AudioManager.Instance.PlaySfx(stompClip);
             Destroy(gameObject);
         }
         else

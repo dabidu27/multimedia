@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Patroller_Walk
-  serializedVersion: 8
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -45,7 +45,6 @@ AnimationClip:
       isPPtrCurve: 1
       isIntCurve: 0
       isSerializeReferenceCurve: 0
-      metaData: 0
     pptrCurveMapping:
     - {fileID: -675203305069419174, guid: ada7acedfb85f6f4a90720d64d27fc6f, type: 3}
     - {fileID: -8269734370686343364, guid: ada7acedfb85f6f4a90720d64d27fc6f, type: 3}

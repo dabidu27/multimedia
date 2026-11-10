@@ -87,6 +87,7 @@ public class WalkerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpVelocity);
             coyoteTimer = 0f;   // a granted jump spends the whole window
+            PlaySound(jumpClip);
         }
 
         if (jumpCutRequested && rb.linearVelocity.y > 0f)
